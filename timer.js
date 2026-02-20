@@ -4,6 +4,8 @@ const startBtn = document.getElementById('start');
 const pauseBtn = document.getElementById('pause');
 const resetBtn = document.getElementById('reset');
 const alarmSound = document.getElementById('alarmSound');
+const stateLabel = document.getElementById('stateLabel');
+const cycleInfo = document.getElementById('cycleInfo');
 
 // Configurações de Tempo
 let focusTime = 25 * 60;
@@ -38,6 +40,18 @@ function playSound() {
   alarmSound.play();
 }
 
+// Atualização da Interface
+function updateStateUI(){
+  if (currentState === 'focus'){
+    stateLabel.textContent = '🔥 Foco';
+  } else if (currentState === 'shortBreak'){
+    stateLabel.textContent = '☕ Pausa Curta';
+  } else if (currentState === 'longBreak'){
+    stateLabel.textContent = '🌙 Pausa Longa';
+  }
+  cycleInfo.textContent = `Ciclo: ${currentCycle} / ${maxCycles}`;
+}
+
 // Controle do Timer
 function startTimer() {
   if (intervalId !== null) return; // evita múltiplos intervals
@@ -61,9 +75,11 @@ function resetTimer() {
   pauseTimer();
   currentState = 'focus';
   currentCycle = 0;
-  totalSeconds = focusTime
+  totalSeconds = focusTime;
   updateDisplay();
+  updateStateUI();
 }
+
 
 // Lógica de Estados
 function handleTimerEnd(){
@@ -90,8 +106,10 @@ function handleTimerEnd(){
     totalSeconds = focusTime;
   }
   updateDisplay();
+  updateStateUI();
   
 }
+
 
 // Eventos
 startBtn.addEventListener('click', startTimer);
@@ -99,3 +117,4 @@ pauseBtn.addEventListener('click', pauseTimer);
 resetBtn.addEventListener('click', resetTimer);
 
 updateDisplay();
+updateStateUI();
