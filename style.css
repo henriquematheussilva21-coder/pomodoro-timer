@@ -11,7 +11,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #e2ef80
+  color: #e2e8e2f0;
+  transition: background 0.4s ease;
 }
 
 .container {
@@ -21,6 +22,16 @@ body {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
   text-align: center;
   width: 350px;
+  transition: background 0.4s ease;
+}
+.container.focus {
+  background: #1e293b;
+}
+.container.shortBreak {
+  background: #1f3a2b;
+}
+.container.longBreak {
+  background: #2d2a4a;
 }
 
 h1 {
@@ -34,13 +45,12 @@ h1 {
   font-size: 1.1rem;
   margin-bottom: 5px;
   font-weight: 500;
-  opacity: 0.9;
 }
 
 #cycleInfo {
   font-size: 0.9rem;
   margin-bottom: 20px;
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 #timer {
@@ -61,7 +71,7 @@ button {
   border: none;
   border-radius: 6px;
   background: #334155;
-  color: #e2ef80;
+  color: #e2e8f0;
   font-size: 0.95rem;
   cursor: pointer;
   transition: background 0.2s ease, transform 0.1s ease;

@@ -6,6 +6,7 @@ const resetBtn = document.getElementById('reset');
 const alarmSound = document.getElementById('alarmSound');
 const stateLabel = document.getElementById('stateLabel');
 const cycleInfo = document.getElementById('cycleInfo');
+const container = document.querySelector(".container");
 
 // Configurações de Tempo
 let focusTime = 25 * 60;
@@ -50,6 +51,8 @@ function updateStateUI(){
     stateLabel.textContent = '🌙 Pausa Longa';
   }
   cycleInfo.textContent = `Ciclo: ${currentCycle} / ${maxCycles}`;
+
+  container.classList.remove("focus", "shortBreak", "longBreak");container.classList.add(currentState);
 }
 
 // Controle do Timer
