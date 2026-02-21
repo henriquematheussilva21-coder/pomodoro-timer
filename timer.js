@@ -52,7 +52,8 @@ function updateStateUI(){
   }
   cycleInfo.textContent = `Ciclo: ${currentCycle} / ${maxCycles}`;
 
-  container.classList.remove("focus", "shortBreak", "longBreak");container.classList.add(currentState);
+  container.classList.remove("focus", "shortBreak", "longBreak");
+  container.classList.add(currentState);
 }
 
 // Controle do Timer
@@ -88,26 +89,33 @@ function resetTimer() {
 function handleTimerEnd(){
   pauseTimer();
   playSound();
-  
-  if (currentState === 'focus') {
-    currentCycle++;
+
+  switch (currentState) {
+    case 'focus':
+      currentCycle++;
+      if (currentCycle < maxCycles) {
+        currentState = 'shortBreak';
+        totalSeconds = shortBreakTime;
+      } else {
+        currentState = 'longBreak';
+        totalSeconds = longBreakTime;
+      }
+      break;
     
-    if (currentCycle < maxCycles){
-      currentState = 'shortBreak';
-      totalSeconds = shortBreakTime;
-    } else {
-      currentState = 'longBreak';
-      totalSeconds = longBreakTime;
-    }
-  } else if (currentState === 'shortBreak') {
-    currentState = 'focus';
-    totalSeconds = focusTime;
+    case 'shortBreak':
+      currentState = 'focus';
+      totalSeconds = focusTime;
+      break;
     
-  } else if (currentState === 'longBreak') {
-    currentCycle = 0;
-    currentState = 'focus';
-    totalSeconds = focusTime;
-  }
+    case 'longBreak':
+      currentCycle = 0;
+      currentState = 'focus';
+      totalSeconds = focusTime;
+      break;
+      }
+
+    
+
   updateDisplay();
   updateStateUI();
   
