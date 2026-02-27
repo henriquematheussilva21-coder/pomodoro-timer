@@ -12,6 +12,10 @@ const shortBreakInput = document.getElementById("shortBreakInput");
 const longBreakInput = document.getElementById("longBreakInput");
 const cycleInput = document.getElementById("cycleInput");
 const applyBtn = document.getElementById("applySettings");
+const historyList = document.getElementById("historyList");
+const totalSessionsEl = document.getElementById("totalSessions");
+const totalMinutesEl = document.getElementById("totalMinutes");
+const clearHistoryBtn = document.getElementById("clearHistory");
 
 // Configurações de Tempo
 let focusTime = 25 * 60;
@@ -65,7 +69,62 @@ function applySettings() {
   resetTimer();
 }
 
-applyBtn.addEventListener("click", applySettings);
+// Salva Sessão de Foco
+function saveFocusSession() {
+  const history = JSON.parse(localStorage.getItem("pomodoroHistory")) || [];
+
+  const newSession = {
+    date: new Date().toISOString(),
+    duration: focusTime / 60
+  };
+
+  history.unshift(newSession); // adiciona no início (mais recente primeiro)
+
+  if (history.length > 20) {
+  history.pop();
+}
+
+  localStorage.setItem("pomodoroHistory", JSON.stringify(history));
+
+  renderHistory();
+}
+
+// Renderiza Histórico
+function renderHistory() {
+  const history = JSON.parse(localStorage.getItem("pomodoroHistory")) || [];
+
+  historyList.innerHTML = "";
+
+  history.forEach(session => {
+    const li = document.createElement("li");
+
+    const formattedDate = new Date(session.date).toLocaleString("pt-BR");
+
+    li.textContent = `${formattedDate} - ${session.duration} min`;
+
+    historyList.appendChild(li);
+  });
+
+  updateTotals(history);
+}
+
+// Atualiza Estatísticas
+function updateTotals(history) {
+  const totalSessions = history.length;
+
+  const totalMinutes = history.reduce((acc, session) => {
+    return acc + session.duration;
+  }, 0);
+
+  totalSessionsEl.textContent = `Total de focos: ${totalSessions}`;
+  totalMinutesEl.textContent = `Total de minutos focados: ${totalMinutes}`;
+}
+
+// Limpa Histórico
+function clearHistory() {
+  localStorage.removeItem("pomodoroHistory");
+  renderHistory();
+}
 
 // Atualiza o display
 function updateDisplay() {
@@ -129,6 +188,7 @@ function handleTimerEnd(){
 
   switch (currentState) {
     case 'focus':
+      saveFocusSession();
       currentCycle++;
       if (currentCycle < maxCycles) {
         currentState = 'shortBreak';
@@ -163,6 +223,9 @@ function handleTimerEnd(){
 startBtn.addEventListener('click', startTimer);
 pauseBtn.addEventListener('click', pauseTimer);
 resetBtn.addEventListener('click', resetTimer);
+applyBtn.addEventListener("click", applySettings);
+clearHistoryBtn.addEventListener("click", clearHistory);
 
 updateDisplay();
 updateStateUI();
+renderHistory();
