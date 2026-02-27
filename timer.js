@@ -118,7 +118,7 @@ function handleTimerEnd(){
 
   updateDisplay();
   updateStateUI();
-  
+  startTimer();
 }
 
 

@@ -7,7 +7,7 @@
 </head>
 
 <body>
-  <audio id="alarmSound" src="/audio/alarm.mp3"></audio>
+  <audio id="alarmSound" src="audio/alarm.mp3"></audio>
   <div class="container">
   <h1>Pomodoro</h1>
   
@@ -16,6 +16,32 @@
   
   <div id="timer">25:00</div>
   
+  <section class="settings">
+  <h2>Configurações</h2>
+
+  <div class="setting-item">
+    <label for="focusInput">Tempo de foco (minutos)</label>
+    <input type="number" id="focusInput" min="1" value="25">
+  </div>
+
+  <div class="setting-item">
+    <label for="shortBreakInput">Pausa curta (minutos)</label>
+    <input type="number" id="shortBreakInput" min="1" value="5">
+  </div>
+
+  <div class="setting-item">
+    <label for="longBreakInput">Pausa longa (minutos)</label>
+    <input type="number" id="longBreakInput" min="1" value="15">
+  </div>
+
+  <div class="setting-item">
+    <label for="cycleInput">Número de ciclos</label>
+    <input type="number" id="cycleInput" min="1" value="4">
+  </div>
+
+  <button id="applySettings">Aplicar configurações</button>
+</section>
+
   <div class="controls">
     <button id="start">Iniciar</button>
     <button id="pause">Pausar</button>
