@@ -7,6 +7,11 @@ const alarmSound = document.getElementById('alarmSound');
 const stateLabel = document.getElementById('stateLabel');
 const cycleInfo = document.getElementById('cycleInfo');
 const container = document.querySelector(".container");
+const focusInput = document.getElementById("focusInput");
+const shortBreakInput = document.getElementById("shortBreakInput");
+const longBreakInput = document.getElementById("longBreakInput");
+const cycleInput = document.getElementById("cycleInput");
+const applyBtn = document.getElementById("applySettings");
 
 // Configurações de Tempo
 let focusTime = 25 * 60;
@@ -29,6 +34,38 @@ function formatTime(seconds) {
   const secs = seconds % 60;
   return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 }
+
+// Configuração Dinâmica do Timer
+function applySettings() {
+  if (intervalId !== null) {
+    alert("Pause o timer antes de alterar as configurações.");
+    return;
+  }
+
+  const newFocus = parseInt(focusInput.value);
+  const newShort = parseInt(shortBreakInput.value);
+  const newLong = parseInt(longBreakInput.value);
+  const newCycles = parseInt(cycleInput.value);
+
+  if (
+    isNaN(newFocus) || newFocus <= 0 ||
+    isNaN(newShort) || newShort <= 0 ||
+    isNaN(newLong) || newLong <= 0 ||
+    isNaN(newCycles) || newCycles <= 0
+  ) {
+    alert("Insira valores válidos maiores que zero.");
+    return;
+  }
+
+  focusTime = newFocus * 60;
+  shortBreakTime = newShort * 60;
+  longBreakTime = newLong * 60;
+  maxCycles = newCycles;
+
+  resetTimer();
+}
+
+applyBtn.addEventListener("click", applySettings);
 
 // Atualiza o display
 function updateDisplay() {
